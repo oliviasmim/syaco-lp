@@ -1,15 +1,14 @@
 /* ============================================================
    Leads da SYACO: recebe o formulário /comecar/, grava na planilha
-   e avisa no WhatsApp da SYACO. Instalação no README, seção
+   e avisa a SYACO por e-mail. Instalação no README, seção
    "Leads: planilha e WhatsApp".
 
-   Propriedades do script (nunca escreva a chave neste arquivo):
-     CALLMEBOT_PHONE   número que recebe o aviso, ex. +5513996625980
-     CALLMEBOT_APIKEY  chave que o CallMeBot manda no WhatsApp
-   Sem elas, o aviso vai só por e-mail e a planilha segue funcionando.
+   O script roda na conta de quem implantou. O appsscript.json limita o
+   que ele alcança nessa conta: só esta planilha e o envio de e-mail.
    ============================================================ */
 
 const ABA = 'Leads';
+const EMAIL_AVISO = 'syacocompany@gmail.com';
 
 const COLUNAS = [
   'Data', 'Nome', 'WhatsApp', 'Status', 'Falar com o lead', 'Prioridade',
@@ -17,6 +16,11 @@ const COLUNAS = [
   'Pontos', 'Aviso', 'UTM source', 'UTM medium', 'UTM campaign', 'UTM content',
   'UTM term',
 ];
+
+const LARGURAS = {
+  Data: 120, Nome: 170, Status: 160, 'Falar com o lead': 150, Prioridade: 200,
+  Empresa: 170, Serviço: 230, Investimento: 200, Prazo: 170,
+};
 
 const STATUS = ['Aguardando contato', 'Contatado', 'Em negociação', 'Fechou', 'Sem interesse'];
 
@@ -43,7 +47,7 @@ function doPost(e) {
     const lead = lerLead_(JSON.parse(e.postData.contents));
     if (!lead) return json_({ ok: false, erro: 'dados-invalidos' });
 
-    const ss = abrirPlanilha_();
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
     const linha = gravar_(ss, lead);
     // Linha nula: é o mesmo lead de agora há pouco, já gravado e avisado.
     if (linha) registrarAviso_(ss, linha, avisar_(ss, lead));
@@ -105,12 +109,6 @@ function telefoneLegivel_(digitos) {
 
 /* ---------- planilha ----------------------------------------- */
 
-function abrirPlanilha_() {
-  const id = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
-  if (!id) throw new Error('Rode a função configurar antes de implantar.');
-  return SpreadsheetApp.openById(id);
-}
-
 function gravar_(ss, lead) {
   const chave = `lead:${lead.digitos}`;
   const cache = CacheService.getScriptCache();
@@ -168,47 +166,24 @@ function registrarAviso_(ss, linha, resultado) {
 
 /* ---------- aviso para a SYACO ------------------------------- */
 
-/* O telefone do lead fica de fora: o texto passa por um serviço de terceiros. */
 function textoAviso_(ss, lead) {
   return [
-    `Novo lead: *${lead.nome}* acabou de preencher o formulário.`,
+    `Novo lead: ${lead.nome} acabou de preencher o formulário.`,
     `${RESULTADOS[lead.tela]} · ${lead.prioridade}`,
     ss.getUrl(),
   ].join('\n');
 }
 
-/* Um aviso que falha não pode perder o lead: ele já está na planilha,
-   e o e-mail cobre o WhatsApp. Devolve o que aparece na coluna Aviso. */
+/* Um aviso que falha não pode perder o lead: ele já está na planilha.
+   Devolve o que aparece na coluna Aviso. */
 function avisar_(ss, lead) {
-  const texto = textoAviso_(ss, lead);
   try {
-    if (enviarWhatsApp_(texto)) return 'WhatsApp enviado';
-  } catch (err) {
-    console.error('Falha no CallMeBot', err);
-  }
-  try {
-    MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `Novo lead: ${lead.nome}`, texto);
-    return 'Só por e-mail';
+    MailApp.sendEmail(EMAIL_AVISO, `Novo lead: ${lead.nome}`, textoAviso_(ss, lead));
+    return 'E-mail enviado';
   } catch (err) {
     console.error('Falha no e-mail de aviso', err);
     return 'Aviso falhou';
   }
-}
-
-/* O CallMeBot não documenta a resposta de um envio. Vale como enviado o
-   HTTP 200 sem palavra de erro; na dúvida, sai também o e-mail. */
-function enviarWhatsApp_(texto) {
-  const props = PropertiesService.getScriptProperties();
-  const phone = props.getProperty('CALLMEBOT_PHONE');
-  const apikey = props.getProperty('CALLMEBOT_APIKEY');
-  if (!phone || !apikey) return false;
-
-  const url = 'https://api.callmebot.com/whatsapp.php'
-    + `?phone=${encodeURIComponent(phone)}`
-    + `&text=${encodeURIComponent(texto)}`
-    + `&apikey=${encodeURIComponent(apikey)}`;
-  const res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
-  return res.getResponseCode() === 200 && !/error|invalid|paused/i.test(res.getContentText());
 }
 
 /* ---------- instalação (rodar pelo editor) ------------------- */
@@ -248,12 +223,15 @@ function configurar() {
       .whenCellNotEmpty().setBackground('#1E8E5A').setRanges([col('Falar com o lead')]).build(),
   ]);
 
-  sheet.autoResizeColumns(1, COLUNAS.length);
-  PropertiesService.getScriptProperties().setProperty('SHEET_ID', ss.getId());
+  COLUNAS.forEach((nome, i) => sheet.setColumnWidth(i + 1, LARGURAS[nome] || 130));
+
+  // A aba em branco que toda planilha nova traz.
+  const vazia = ss.getSheetByName('Página1');
+  if (vazia && vazia.getLastRow() === 0) ss.deleteSheet(vazia);
 }
 
 /* Manda um aviso de teste sem criar linha. Veja o resultado no registro. */
 function testarAviso() {
   const lead = { nome: 'Lead de teste', tela: 'match', prioridade: 'responder primeiro' };
-  console.log(avisar_(abrirPlanilha_(), lead));
+  console.log(avisar_(SpreadsheetApp.getActiveSpreadsheet(), lead));
 }

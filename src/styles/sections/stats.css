@@ -28,6 +28,36 @@
   color: var(--page-ink-muted);
 }
 
+/* Celular: uma linha por métrica, número à esquerda e rótulo ao lado,
+   com hairlines entre elas. Empilhado, cada número ocupava uma tela
+   inteira de altura e deixava a metade direita vazia. A coluna do
+   número é a mesma nas três linhas (subgrid) para os rótulos alinharem. */
+@media (max-width: 767px) {
+  .stats {
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--s-3);
+    row-gap: 0;
+    border-block: 1px solid var(--page-hairline);
+  }
+
+  .stat {
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: center;
+    gap: 0 var(--s-3);
+    padding-block: var(--s-3);
+  }
+
+  .stat + .stat { border-block-start: 1px solid var(--page-hairline); }
+
+  .stat__value { font-size: clamp(2.75rem, 1.6rem + 6vw, 3.5rem); }
+
+  .stat__label {
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+}
+
 @media (min-width: 768px) {
   .stats {
     grid-template-columns: repeat(3, 1fr);

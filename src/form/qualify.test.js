@@ -78,6 +78,9 @@ test('validação por pergunta', () => {
   assert.equal(validate('nome', 'Ana'), null);
   assert.ok(validate('whatsapp', '1399'));
   assert.equal(validate('presenca', 'não tenho'), null);
+  // O @ é opcional: o usuário do Instagram vale com ou sem ele.
+  assert.equal(validate('presenca', 'syacocompany'), null);
+  assert.equal(validate('presenca', '@syacocompany'), null);
   assert.ok(validate('servico', undefined));
   assert.equal(validate('servico', 'site'), null);
 });

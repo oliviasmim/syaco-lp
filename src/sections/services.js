@@ -74,7 +74,7 @@ export function initServices({ reduced = false } = {}) {
       scrub: reduced ? false : 1,
       invalidateOnRefresh: true,
       anticipatePin: 1,
-      refreshPriority: 1,
+      refreshPriority: 2,
       onUpdate: (self) => {
         setProgress(self.progress);
         gsap.set(track, { x: -distance() * self.progress });

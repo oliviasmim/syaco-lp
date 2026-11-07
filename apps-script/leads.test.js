@@ -12,8 +12,8 @@ const chain = (extra = {}) =>
     get: (t, k) => (k in t ? t[k] : () => chain(t)),
   });
 
-function google({ props = {}, fetchResult = { code: 200, body: 'Message queued' }, fetchThrows, mailThrows } = {}) {
-  const log = { rows: [], links: {}, values: {}, fetches: [], mails: [] };
+function google({ planilha = true, mailThrows } = {}) {
+  const log = { rows: [], links: {}, values: {}, mails: [] };
   const cache = new Map();
   const sheet = {
     appendRow: (r) => log.rows.push(r),
@@ -24,7 +24,6 @@ function google({ props = {}, fetchResult = { code: 200, body: 'Message queued' 
     }),
   };
   const ss = { getSheetByName: () => sheet, getUrl: () => 'https://sheet.test' };
-  const properties = { SHEET_ID: 'id', ...props };
   const ctx = {
     console: { error() {}, log() {} },
     ContentService: {
@@ -32,7 +31,7 @@ function google({ props = {}, fetchResult = { code: 200, body: 'Message queued' 
       createTextOutput: (s) => ({ setMimeType: () => JSON.parse(s) }),
     },
     SpreadsheetApp: {
-      openById: () => ss,
+      getActiveSpreadsheet: () => (planilha ? ss : null),
       flush() {},
       newTextStyle: () => chain({ build: () => ({}) }),
       newRichTextValue: () => {
@@ -45,7 +44,6 @@ function google({ props = {}, fetchResult = { code: 200, body: 'Message queued' 
         return b;
       },
     },
-    PropertiesService: { getScriptProperties: () => ({ getProperty: (k) => properties[k] ?? null }) },
     CacheService: {
       getScriptCache: () => ({
         get: (k) => cache.get(k) ?? null,
@@ -53,20 +51,12 @@ function google({ props = {}, fetchResult = { code: 200, body: 'Message queued' 
       }),
     },
     LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
-    UrlFetchApp: {
-      fetch: (url) => {
-        if (fetchThrows) throw new Error('rede');
-        log.fetches.push(url);
-        return { getResponseCode: () => fetchResult.code, getContentText: () => fetchResult.body };
-      },
-    },
     MailApp: {
       sendEmail: (...a) => {
         if (mailThrows) throw new Error('cota');
         log.mails.push(a);
       },
     },
-    Session: { getEffectiveUser: () => ({ getEmail: () => 'dono@test' }) },
   };
   vm.createContext(ctx);
   vm.runInContext(CODE, ctx);
@@ -75,7 +65,6 @@ function google({ props = {}, fetchResult = { code: 200, body: 'Message queued' 
   return { post, raw, log };
 }
 
-const CONFIG = { CALLMEBOT_PHONE: '+5513996625980', CALLMEBOT_APIKEY: 'k3y' };
 const AVISO = '2:14';
 const BOTAO = '2:5';
 const lead = {
@@ -92,7 +81,7 @@ const lead = {
 };
 
 let g;
-beforeEach(() => { g = google({ props: CONFIG }); });
+beforeEach(() => { g = google(); });
 
 test('grava o lead com status inicial e telefone legível', () => {
   assert.equal(g.post(lead).ok, true);
@@ -109,40 +98,24 @@ test('o botão abre o WhatsApp do lead com a mensagem da tela final', () => {
   assert.equal(url.origin + url.pathname, 'https://wa.me/5513996625980');
   assert.match(url.searchParams.get('text'), /^Oi, Ana! .*marcar uma conversa/);
 
-  const outro = google({ props: CONFIG });
+  const outro = google();
   outro.post({ ...lead, tela_final: 'nao-agora' });
   assert.match(new URL(outro.log.links[BOTAO]).searchParams.get('text'), /Obrigada por responder/);
 });
 
-test('avisa a SYACO com o nome do lead, sem o telefone dele', () => {
-  g.post({ ...lead, whatsapp: '+5511988887777' });
-  const url = new URL(g.log.fetches[0]);
-  assert.equal(url.searchParams.get('phone'), '+5513996625980');
-  assert.equal(url.searchParams.get('apikey'), 'k3y');
-  assert.match(url.searchParams.get('text'), /\*Ana\* acabou de preencher o formulário/);
-  assert.doesNotMatch(url.searchParams.get('text'), /988887777/);
-  assert.equal(g.log.values[AVISO], 'WhatsApp enviado');
-  assert.equal(g.log.mails.length, 0);
+test('avisa a SYACO por e-mail com o nome do lead', () => {
+  g.post(lead);
+  const [para, assunto, texto] = g.log.mails[0];
+  assert.equal(para, 'syacocompany@gmail.com');
+  assert.equal(assunto, 'Novo lead: Ana');
+  assert.match(texto, /Ana acabou de preencher o formulário/);
+  assert.equal(g.log.values[AVISO], 'E-mail enviado');
 });
 
-test('aviso que falha não perde o lead e cai no e-mail', () => {
-  for (const opts of [
-    { fetchThrows: true },
-    { fetchResult: { code: 500, body: '' } },
-    { fetchResult: { code: 200, body: 'Your account is paused' } },
-    {},
-  ]) {
-    const t = google(opts.fetchThrows || opts.fetchResult ? { props: CONFIG, ...opts } : {});
-    assert.equal(t.post(lead).ok, true);
-    assert.equal(t.log.rows.length, 1);
-    assert.equal(t.log.mails.length, 1);
-    assert.equal(t.log.values[AVISO], 'Só por e-mail');
-  }
-});
-
-test('sem WhatsApp e sem e-mail, a planilha mostra que o aviso falhou', () => {
-  const t = google({ fetchThrows: true, mailThrows: true, props: CONFIG });
+test('e-mail que falha não perde o lead e a planilha mostra a falha', () => {
+  const t = google({ mailThrows: true });
   assert.equal(t.post(lead).ok, true);
+  assert.equal(t.log.rows.length, 1);
   assert.equal(t.log.values[AVISO], 'Aviso falhou');
 });
 
@@ -150,7 +123,7 @@ test('reenvio do mesmo número não duplica linha nem aviso', () => {
   g.post(lead);
   assert.equal(g.post(lead).ok, true);
   assert.equal(g.log.rows.length, 1);
-  assert.equal(g.log.fetches.length, 1);
+  assert.equal(g.log.mails.length, 1);
 });
 
 test('texto do lead nunca vira fórmula na planilha', () => {
@@ -170,11 +143,21 @@ test('recusa corpo inválido sem gravar nada', () => {
 });
 
 test('JSON quebrado e planilha não configurada respondem ok: false', () => {
-  assert.equal(google({ props: { SHEET_ID: null } }).post(lead).ok, false);
+  assert.equal(google({ planilha: false }).post(lead).ok, false);
   assert.equal(g.raw('{quebrado').ok, false);
 });
 
 test('tela_final desconhecida vira "Talvez"', () => {
   g.post({ ...lead, tela_final: 'constructor' });
   assert.equal(g.log.rows[0][6], 'Talvez');
+});
+
+test('o script só alcança esta planilha e o envio de e-mail', () => {
+  const manifesto = JSON.parse(readFileSync(new URL('./appsscript.json', import.meta.url), 'utf8'));
+  assert.deepEqual(manifesto.oauthScopes.map((e) => e.split('/').pop()).sort(), [
+    'script.send_mail',
+    'spreadsheets.currentonly',
+  ]);
+  assert.equal(manifesto.urlFetchWhitelist, undefined);
+  assert.doesNotMatch(CODE, /openById|Session\.|UrlFetchApp/);
 });

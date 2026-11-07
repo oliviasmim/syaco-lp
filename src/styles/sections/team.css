@@ -85,6 +85,41 @@
   color: var(--page-ink-muted);
 }
 
+/* ---------- Pinned: celular em pé ----------
+   Posto pelo JS (sections/team.js). Tudo precisa caber em 100svh, então
+   a altura da foto limita a largura da coluna. --team-chrome é tudo o
+   que não é foto dentro do pin. */
+.section--team.is-pinned { padding-block: 0; }
+
+.section--team.is-pinned .team__pin {
+  --team-chrome: 290px;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  gap: 14px;
+  padding-block: 80px 16px;
+  overflow-x: clip;
+}
+
+.section--team.is-pinned .section__head { gap: 6px; margin-bottom: 0; max-width: none; }
+
+.section--team.is-pinned .section__head .h2 {
+  font-size: min(7.4vw, var(--step-3));
+  white-space: nowrap;
+}
+
+.section--team.is-pinned .section__head .lede { font-size: var(--step-0); max-width: none; }
+
+.section--team.is-pinned .team {
+  grid-auto-columns: min(62vw, 260px, calc((100svh - var(--team-chrome)) * 0.8));
+  width: max-content;
+  overflow: visible;
+  scroll-snap-type: none;
+  padding-block-end: 0;
+  will-change: transform;
+}
+
 @media (min-width: 768px) {
   .team {
     grid-auto-flow: row;

@@ -78,15 +78,19 @@ export function start({ mode = 'full', reduced = false } = {}) {
     document.querySelector('.dot-shadow')?.remove();
     return null;
   }
+  // A altura do canvas vem do CSS (100lvh): estável quando a barra de URL
+  // do celular aparece e some. Renderer e câmera seguem essa altura.
+  const canvasH = () => canvas.clientHeight || window.innerHeight;
+
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight, false);
+  renderer.setSize(window.innerWidth, canvasH(), false);
   renderer.setClearAlpha(0);
 
   const scene = new Scene();
 
   const camera = new PerspectiveCamera(
     35,
-    window.innerWidth / window.innerHeight,
+    window.innerWidth / canvasH(),
     0.1,
     100
   );
@@ -168,12 +172,12 @@ export function start({ mode = 'full', reduced = false } = {}) {
 
   function applySize() {
     const w = window.innerWidth;
-    const h = window.innerHeight;
+    const h = canvasH();
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     lastW = w;
-    lastH = h;
+    lastH = window.innerHeight;
     director.refresh();
     markDirty();
   }

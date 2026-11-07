@@ -8,6 +8,7 @@ import { initHero } from './sections/hero.js';
 import { initNav } from './sections/nav.js';
 import { initStats } from './sections/stats.js';
 import { initServices } from './sections/services.js';
+import { initTeam } from './sections/team.js';
 import { initServiceVisuals } from './sections/services-visuals.js';
 import { initProcessVisuals } from './sections/process-visuals.js';
 import { detectMode, prefersReducedMotion } from './scene/capabilities.js';
@@ -99,7 +100,7 @@ if (!reduced) {
 
 /* ---------- Seções --------------------------------------------- */
 
-/* ORDEM IMPORTA. Os dois pins (hero e serviços) acrescentam altura
+/* ORDEM IMPORTA. Os pins (hero, serviços e equipe) acrescentam altura
    ao documento. Se os ScrollTriggers do tema forem criados antes
    deles, o ScrollTrigger calcula start/end com a página ainda curta
    e tudo que vem depois dispara cedo demais — no teste, a seção de
@@ -107,6 +108,7 @@ if (!reduced) {
    com refreshPriority na ordem em que aparecem na página. */
 initHero({ reduced });
 initServices({ reduced });
+initTeam({ reduced });
 
 initTheme({ reduced });
 initReveal({ reduced });

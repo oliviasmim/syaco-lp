@@ -114,23 +114,16 @@ clicou com a mensagem pronta para o lead (os textos ficam em `MENSAGENS`, no top
 Instalação:
 
 1. Crie uma planilha no Google com a conta da SYACO e abra **Extensões → Apps Script**.
-2. Cole o conteúdo de `apps-script/leads.gs` e salve.
+2. Cole o conteúdo de `apps-script/leads.gs` e salve. Em **Configurações do projeto**, marque
+   "Mostrar o arquivo de manifesto", abra `appsscript.json` e cole `apps-script/appsscript.json`.
+   Ele limita o script a esta planilha e ao envio de e-mail.
 3. Escolha a função `configurar` e clique em **Executar**. Autorize com a conta da SYACO.
 4. Em **Implantar → Nova implantação → App da Web**, use "Executar como: **eu**" e
    "Quem pode acessar: **qualquer pessoa**". Copie a URL que termina em `/exec`.
 5. Coloque a URL em `VITE_FORM_ENDPOINT` no `.env` e na hospedagem, e publique o site de novo.
 
-Aviso no WhatsApp da SYACO, pelo [CallMeBot](https://www.callmebot.com/blog/free-api-whatsapp-messages/):
-
-1. Siga a ativação da página acima no WhatsApp da SYACO para receber a chave.
-   Se a página disser que o bot está cheio, o número dele fica oculto: tente de novo depois.
-2. Em **Configurações do projeto → Propriedades do script**, crie `CALLMEBOT_PHONE`
-   (ex. `+5513996625980`) e `CALLMEBOT_APIKEY`.
-3. Rode a função `testarAviso` no editor.
-
-Enquanto o CallMeBot não estiver ativo, ou se ele falhar, o aviso vai por e-mail para a conta
-dona do script. A coluna **Aviso** mostra por onde cada um saiu. O CallMeBot é gratuito, não
-oficial e se declara para uso pessoal; o texto dele leva o nome do lead, nunca o telefone.
+O aviso de cada lead vai por e-mail para `EMAIL_AVISO`, definido no topo do script. A coluna
+**Aviso** mostra se ele saiu. A função `testarAviso` manda um aviso de teste sem criar linha.
 
 Ao mudar o script, publique em **Implantar → Gerenciar implantações → Editar → Nova versão**.
 A URL continua a mesma, e sem esse passo o site segue usando a versão anterior.

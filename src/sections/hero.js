@@ -42,7 +42,7 @@ export function initHero({ reduced = false } = {}) {
         pin: pin ? hero : false,
         pinSpacing: pin,
         anticipatePin: pin ? 1 : 0,
-        refreshPriority: 2,
+        refreshPriority: 3,
         scrub: reduced ? false : true,
         invalidateOnRefresh: true,
         onUpdate: (self) => { heroState.progress = self.progress; },

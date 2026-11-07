@@ -100,17 +100,22 @@ export function createDirector({ camera, dot, particles, shadow, sceneEl, reduce
 
   /* ---------- helpers de projeção ---------- */
 
+  /* A projeção usa a altura do canvas (100lvh), não innerHeight: no
+     celular innerHeight muda com a barra de URL e o canvas, não. */
+  let canvasH = 0;
+  const viewH = () => canvasH || sceneEl?.clientHeight || window.innerHeight;
+
   function view() {
     const h =
       2 * Math.tan(((camera.fov * Math.PI) / 180) / 2) * camera.position.z;
-    return { h, w: h * camera.aspect, pxToWorld: h / window.innerHeight };
+    return { h, w: h * camera.aspect, pxToWorld: h / viewH() };
   }
 
   function toWorld(screenX, screenY) {
     const v = view();
     return {
       x: (screenX / window.innerWidth - 0.5) * v.w,
-      y: (0.5 - screenY / window.innerHeight) * v.h,
+      y: (0.5 - screenY / viewH()) * v.h,
     };
   }
 
@@ -272,6 +277,7 @@ export function createDirector({ camera, dot, particles, shadow, sceneEl, reduce
   }
 
   function refresh() {
+    canvasH = sceneEl?.clientHeight || 0;
     cache.period = measurePeriod();
     cache.home = measureHome();
     cache.landPx = measureLanding();
@@ -876,7 +882,7 @@ export function createDirector({ camera, dot, particles, shadow, sceneEl, reduce
 
     // Sombra de contato: embaixo do `S` enquanto ele existe; depois, do ponto.
     const sx = ((markOn ? markCur.x : dotX) / v.w + 0.5) * window.innerWidth;
-    const sy = (0.5 - (markOn ? markCur.y : dotY) / v.h) * window.innerHeight;
+    const sy = (0.5 - (markOn ? markCur.y : dotY) / v.h) * viewH();
     const rpx = (markOn ? markS : dotS) / v.pxToWorld / 2;
     if (cur.shadow > 0.01 && cur.o > 0.05) {
       shadow.update(sx, sy, rpx, cur.shadow * 0.9 * cur.o);

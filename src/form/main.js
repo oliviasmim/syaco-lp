@@ -237,6 +237,27 @@ function syncChrome() {
     : 'aperte <kbd>Enter ↵</kbd>';
 }
 
+/* iOS só abre o teclado quando o foco vem do próprio toque, e a tela
+   nova chega depois da animação. Então, no toque, o foco vai para um
+   campo invisível (o teclado abre) e passa para o campo real quando
+   ele entra. Só quando a próxima tela tem campo de texto. */
+let keyboardProxy;
+function primeKeyboard(step) {
+  const q = QUESTIONS[step];
+  if (!q || q.kind === 'choice') return;
+  if (!keyboardProxy) {
+    keyboardProxy = document.createElement('input');
+    keyboardProxy.type = 'text';
+    keyboardProxy.tabIndex = -1;
+    keyboardProxy.setAttribute('aria-hidden', 'true');
+    // 16px evita o zoom automático do iOS no foco.
+    keyboardProxy.style.cssText =
+      'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px;pointer-events:none;border:0;padding:0';
+    document.body.append(keyboardProxy);
+  }
+  keyboardProxy.focus({ preventScroll: true });
+}
+
 function focusScreen(el) {
   const target =
     $('#fx-input', el) ||
@@ -483,16 +504,27 @@ async function submit() {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+  if (!locked && !state.done) {
+    const q = QUESTIONS[state.step];
+    // Só prepara o teclado se a resposta atual vai passar.
+    if (!q || !validate(q.id, readAnswer(q))) primeKeyboard(state.step + 1);
+  }
   next();
 });
 
-backBtn.addEventListener('click', back);
+backBtn.addEventListener('click', () => {
+  if (!locked && !state.done && state.step > 0) primeKeyboard(state.step - 1);
+  back();
+});
 
 stage.addEventListener('click', (e) => {
   const t = e.target.closest('[data-start], [data-shortcut], .fx-opt');
   if (!t || t.disabled) return;
 
-  if (t.matches('[data-start]')) return next();
+  if (t.matches('[data-start]')) {
+    if (!locked) primeKeyboard(0);
+    return next();
+  }
   if (t.matches('[data-shortcut]')) {
     $('#fx-input', current).value = QUESTIONS[state.step].shortcut;
     clearError();

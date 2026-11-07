@@ -222,7 +222,16 @@ html:not(.js) .section--dark {
 
 .scene {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  /* Altura fixa na tela grande (sem a barra do navegador). Sem isso o
+     canvas guardava a altura do carregamento e, quando a barra de URL
+     do celular sumia, o ponto era desenhado acima de onde devia. O JS
+     dimensiona o renderer e a projeção por esta mesma altura. */
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  max-width: none;
   z-index: var(--z-canvas);
   pointer-events: none;
   opacity: 0;
