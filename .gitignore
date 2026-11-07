@@ -1,0 +1,13 @@
+node_modules
+dist
+.env
+.DS_Store
+vite.config.js.timestamp-*
+.claude/settings.local.json
+.env.*
+!.env.example
+.dev.vars*
+.wrangler
+.claude
+mockups
+*.log

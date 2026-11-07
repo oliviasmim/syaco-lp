@@ -1,0 +1,135 @@
+@layer sections {
+
+.footer {
+  position: relative;
+  z-index: var(--z-content);
+  background-color: var(--surface-deep);
+  color: var(--ink-invert);
+  --page-ink: var(--ink-invert);
+  --page-ink-muted: var(--ink-invert-muted);
+  --page-hairline: var(--hairline-inv);
+  --page-focus: var(--ember);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--hairline-inv);
+}
+
+.footer__inner {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.footer__signature {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-2);
+  min-height: 220px;
+  align-content: center;
+  padding-block: var(--s-5) var(--s-4);
+  border-bottom: 1px solid var(--hairline-inv);
+}
+
+.footer__signature-origin {
+  width: 1px;
+  height: 1px;
+}
+
+.footer__signature-mark {
+  width: 44px;
+  height: 44px;
+  background-color: var(--ink-invert);
+  -webkit-mask: url("/syaco-mark.svg") center / contain no-repeat;
+  mask: url("/syaco-mark.svg") center / contain no-repeat;
+}
+
+.footer__signature-wordmark {
+  width: min(100%, 470px);
+  height: clamp(52px, 8vw, 96px);
+  background-color: var(--ink-invert);
+  -webkit-mask: url("/syaco-wordmark.svg") center / contain no-repeat;
+  mask: url("/syaco-wordmark.svg") center / contain no-repeat;
+}
+
+.footer__signature-origin,
+.footer__signature-mark,
+.footer__signature-wordmark { grid-area: 1 / 1; }
+
+html:not(.scene-live) .footer__signature-mark { display: none; }
+
+html.scene-live .footer__signature-mark,
+html.scene-live .footer__signature-wordmark { opacity: 0; }
+
+html[data-scene-act="footer"] .footer__signature-wordmark {
+  animation: signature-wordmark 700ms 980ms var(--ease-out) both;
+}
+
+.footer__line {
+  max-width: 40ch;
+  font-size: var(--step--1);
+  color: var(--ink-invert-muted);
+}
+
+.footer__nav { display: flex; flex-wrap: wrap; gap: 4px var(--s-3); }
+
+.footer__nav a,
+.footer__meta a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--step--1);
+  color: var(--ink-invert-muted);
+  text-decoration: none;
+  transition: color var(--dur-in) var(--ease-out);
+}
+
+.footer__nav a:hover,
+.footer__meta a:hover { color: var(--ink-invert); }
+
+.footer__meta {
+  display: grid;
+  gap: 0;
+  font-family: var(--font-body);
+  font-weight: 450;
+  align-content: start;
+}
+
+.footer__copy {
+  margin-top: var(--s-2);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  /* era um color-mix a 46%, que dava 4.11:1 sobre o navy profundo
+     — reprovado no axe para texto de 12.5px. O token muted dá 8.5:1
+     e continua claramente secundário no tamanho em que é usado. */
+  color: var(--ink-invert-muted);
+}
+
+@keyframes signature-dot {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.35) rotate(90deg); }
+}
+
+@keyframes signature-mark {
+  from { opacity: 0; transform: translateY(12px) scale(0.6) rotate(-18deg); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes signature-wordmark {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; transform: scaleX(0.16); }
+  to { clip-path: inset(0); opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__signature-mark,
+  .footer__signature-wordmark { animation: none !important; }
+  html.scene-live .footer__signature-wordmark { opacity: 1; }
+}
+
+@media (min-width: 900px) {
+  .footer__inner {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--s-4);
+  }
+  .footer__nav { flex-direction: column; gap: 0; }
+}
+
+}

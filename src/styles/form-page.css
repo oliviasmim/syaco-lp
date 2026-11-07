@@ -1,0 +1,4 @@
+/* Entrada do CSS do formulário. Ver o comentário em main.css. */
+@import './tokens.css';
+@import './base.css';
+@import './form.css';

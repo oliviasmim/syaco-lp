@@ -1,0 +1,43 @@
+@layer sections {
+
+.section--stats { padding-block: clamp(var(--s-5), 7vw, var(--s-6)); }
+
+.stats {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+}
+
+.stat { display: grid; gap: 6px; }
+
+.stat__value {
+  font-size: var(--step-3);
+  font-variation-settings: "wdth" var(--display-wdth), "wght" 700;
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+  color: var(--page-ink);
+}
+
+.stat__label {
+  font-family: var(--font-body);
+  font-variation-settings: "wdth" var(--label-wdth), "wght" var(--label-wght);
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--page-ink-muted);
+}
+
+@media (min-width: 768px) {
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-5);
+  }
+  /* Divisórias hairline verticais, só entre colunas. */
+  .stat + .stat {
+    padding-inline-start: var(--s-5);
+    border-inline-start: 1px solid var(--page-hairline);
+  }
+}
+
+}

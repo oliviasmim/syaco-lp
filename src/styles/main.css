@@ -1,0 +1,17 @@
+/* Entrada do CSS da landing. Vem de um <link> no index.html, e não de
+   um import no JS: em dev, o Vite injeta o CSS importado pelo JS depois
+   que o HTML já foi pintado, e a página pisca sem estilo. */
+@import './tokens.css';
+@import './base.css';
+@import './sections/nav.css';
+@import './sections/hero.css';
+@import './sections/stats.css';
+@import './sections/about.css';
+@import './sections/services.css';
+@import './sections/team.css';
+@import './sections/cases.css';
+@import './sections/process.css';
+@import './sections/testimonials.css';
+@import './sections/contact.css';
+@import './sections/footer.css';
+@import 'lenis/dist/lenis.css';

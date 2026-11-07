@@ -1,0 +1,6 @@
+[
+  { "name": "Sarah",    "role": "Social Media e Estrategista", "photo": "/img/sarah.webp" },
+  { "name": "Mariana",  "role": "Designer",                    "photo": "/img/mariana.webp" },
+  { "name": "Giovanny", "role": "Tráfego Pago",                "photo": "/img/giovanny.webp" },
+  { "name": "Iasmim",   "role": "Dev",                         "photo": "/img/iasmim.webp" }
+]

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://syaco.com.br/sitemap.xml

@@ -1,0 +1,124 @@
+/* =============================================================
+   SYACO — design tokens
+   Única fonte de cor, tipo e espaço da página inteira.
+   Regra dura: nenhum hex literal fora deste arquivo.
+   ============================================================= */
+
+@layer tokens {
+  :root {
+    /* ---------- Marca (guia Pantone) --------------------------
+       --navy     #13273F  Pantone 7546C  Mystic Navy
+       --cream    #E8D4C3  12-1006 TCX    Mother of Pearl
+       --inferno  #4E0000  Pantone 4975C  Red Inferno
+       --soil     #543823  19-1218 TCX    Potting Soil
+       ---------------------------------------------------------- */
+    --navy:    #13273F;
+    --cream:   #E8D4C3;
+    --inferno: #4E0000;
+    --soil:    #543823;
+
+    /* ---------- Superfícies ---------------------------------- */
+    --surface-1:    #FFFFFF; /* branco — fundo padrão           */
+    --surface-2:    #E8D4C3; /* cream puro — cards, respiro     */
+    --surface-dark: #13273F; /* navy — blocos full-bleed        */
+    --surface-deep: #0C1A2C; /* navy aprofundado — footer       */
+
+    /* ---------- Texto ----------------------------------------
+       Razões medidas contra a superfície correspondente.        */
+    --ink:              #13273F; /* s/ --surface-1     13.0:1 AAA */
+    --ink-muted:        #4A5A6E; /* s/ --surface-1      6.1:1 AA  */
+    --ink-invert:       #F4EDE5; /* s/ --surface-dark  13.0:1 AAA */
+    --ink-invert-muted: #A9B6C4; /* s/ --surface-dark   7.3:1 AA  */
+
+    /* ---------- Acento ---------------------------------------
+       ATENÇÃO: --accent (Red Inferno) sobre navy dá 1.05:1 — as
+       duas cores têm praticamente a mesma luminância. Ele é
+       INUTILIZÁVEL sobre navy. Só existe sobre superfície clara:
+       13.7:1 s/ --surface-1, 11.1:1 s/ --surface-2.
+       Nas seções navy o CTA é creme sólido com texto navy (10.5:1).
+
+       --ember é uma DERIVAÇÃO declarada, não uma cor da marca.
+       Existe só para detalhe gráfico aceso sobre navy:
+       sublinhado, indicador, anel de foco, texto grande.
+       4.1:1 sobre --surface-dark e 4.8:1 sobre --surface-deep →
+       serve para UI e texto grande (mín. 3:1), NUNCA para corpo de
+       texto (mín. 4.5:1). Todos os números aqui foram medidos, não
+       estimados.                                 */
+    --accent: #4E0000;
+    --ember:  #E4572E;
+
+    --hairline:     color-mix(in oklab, var(--navy)  14%, transparent);
+    --hairline-inv: color-mix(in oklab, var(--cream) 18%, transparent);
+
+    /* ---------- Tokens de página (trocados pelo tema) --------
+       --page-bg é interpolado por JS no scrub creme↔navy.
+       Os tokens de tinta TROCAM no meio da transição (não
+       interpolam) para que o texto nunca fique num meio-tom sem
+       contraste. base.css cuida disso via html.is-dark.         */
+    --page-bg:       var(--surface-1);
+    --page-ink:      var(--ink);
+    --page-ink-muted:var(--ink-muted);
+    --page-hairline: var(--hairline);
+    --page-accent:   var(--accent);
+    --page-card:     var(--surface-2);
+    --page-focus:    var(--accent);
+
+    /* ---------- Tipografia -----------------------------------
+       Mono-família Archivo (display, corpo e labels condensadas)
+       + Instrument Serif como acento criativo (citações, índices
+       numéricos e ênfases em itálico — nunca texto longo).     */
+    --font-display: "Archivo", "Archivo Fallback", sans-serif;
+    --font-body:    "Archivo", "Archivo Fallback", sans-serif;
+    --font-serif:   "Instrument Serif", "Instrument Serif Fallback", Georgia, serif;
+
+    /* Voze de label/meta: Archivo em corte condensado, tracking
+       largo. Sem família extra — diferenciação por tensão.      */
+    --label-wdth: 62;
+    --label-wght: 650;
+
+    --step--1: clamp(0.83rem, 0.8rem  + 0.15vw, 0.9rem);
+    --step-0:  clamp(1rem,    0.96rem + 0.2vw,  1.125rem);
+    --step-1:  clamp(1.35rem, 1.2rem  + 0.7vw,  1.75rem);
+    --step-2:  clamp(1.8rem,  1.4rem  + 1.9vw,  2.9rem);
+    --step-3:  clamp(2.6rem,  1.7rem  + 4.2vw,  5.5rem);
+    --step-4:  clamp(3.4rem,  1.8rem  + 7.6vw,  9rem); /* só o H1 */
+
+    /* Display = Archivo Expanded. A largura conversa com o
+       wordmark geométrico pesado sem tentar imitá-lo. */
+    --display-wdth: 112;
+    --display-wght: 700;
+
+    /* ---------- Espaço — escala base 8 ------------------------ */
+    --s-1:  8px;
+    --s-2:  16px;
+    --s-3:  24px;
+    --s-4:  40px;
+    --s-5:  64px;
+    --s-6:  96px;
+    --s-7:  160px;
+
+    --section-y: clamp(var(--s-6), 9vw, var(--s-7));
+
+    /* ---------- Container ------------------------------------ */
+    --container: 1240px;
+    --gutter: 20px;
+
+    /* ---------- Forma ---------------------------------------- */
+    --radius-control: 4px; /* inputs, botões  */
+    --radius-card:    2px; /* cards           */
+
+    /* ---------- Movimento ------------------------------------ */
+    --dur-in:  220ms;
+    --dur-out: 140ms; /* saída ≈ 65% da entrada */
+    --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --ease-in:  cubic-bezier(0.55, 0.06, 0.68, 0.19);
+
+    --z-canvas: 0;
+    --z-content: 1;
+    --z-nav: 50;
+    --z-overlay: 100;
+  }
+
+  @media (min-width: 768px)  { :root { --gutter: 40px; } }
+  @media (min-width: 1280px) { :root { --gutter: 64px; } }
+}

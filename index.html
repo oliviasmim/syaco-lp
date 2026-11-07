@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYACO — Marketing &amp; Tecnologia | Da estratégia ao resultado</title>
+<meta name="description" content="Agência de marketing e tecnologia: redes sociais, tráfego pago, sites, branding e automação. Crescimento mensurável, com atendimento em todo o Brasil.">
+<link rel="canonical" href="%SITE_URL%/">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#13273F" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- Só a Archivo variável é preloaded. A serifada de acento carrega no swap. -->
+<link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="SYACO">
+<meta property="og:title" content="SYACO — Marketing &amp; Tecnologia">
+<meta property="og:description" content="Da estratégia ao resultado. Marketing e tecnologia trabalhando juntos para transformar negócios em máquinas de crescimento. Atendimento em todo o Brasil.">
+<meta property="og:url" content="%SITE_URL%/">
+<meta property="og:image" content="%SITE_URL%/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SYACO — Marketing &amp; Tecnologia">
+<meta name="twitter:description" content="Da estratégia ao resultado. Atendimento em todo o Brasil.">
+<meta name="twitter:image" content="%SITE_URL%/og.jpg">
+
+<script type="application/ld+json"><!--@jsonld--></script>
+
+<!-- Antes do primeiro paint: o CSS esconde .reveal só com html.js. -->
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="/src/styles/main.css">
+<script type="module" crossorigin src="/src/main.js"></script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+<!-- Fundo único da página. O scrub interpola a cor dele, em vez de
+     pintar seção por seção: assim o corte creme↔navy não pisca. -->
+<div class="bg-stage" aria-hidden="true"></div>
+
+<canvas id="scene" class="scene" aria-hidden="true"></canvas>
+<div class="dot-shadow" aria-hidden="true"></div>
+<div class="jump-curtain" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ==================== NAV ==================== -->
+<header class="nav" id="nav">
+  <nav class="nav__pill" aria-label="Navegação principal">
+    <a class="nav__brand" href="#top">
+      <!-- Wordmark completo usa mask-image em vez de <img> para seguir a cor do
+           tema: navy sobre creme, creme sobre navy. -->
+      <span class="nav__wordmark" aria-hidden="true"></span>
+      <span class="vh">SYACO — ir para o início</span>
+    </a>
+
+    <ul class="nav__links">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#quem-somos">Quem somos</a></li>
+      <li><a href="#como-trabalhamos">Como trabalhamos</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+
+    <a class="btn btn--primary nav__cta" href="/comecar/" data-form-link><span class="nav__cta-label">Falar com a gente</span><span class="nav__cta-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" width="13" height="13" fill="none"><path d="M3 13 13 3M5 3h8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+      <span class="nav__toggle-bars" aria-hidden="true"><i></i><i></i></span>
+      <span class="vh">Abrir menu</span>
+    </button>
+  </nav>
+</header>
+
+<div class="nav-menu" id="nav-menu" hidden>
+  <div class="nav-menu__inner">
+    <ul class="nav-menu__links">
+      <li><a href="#servicos"><span class="nav-menu__idx" aria-hidden="true">01</span>Serviços</a></li>
+      <li><a href="#quem-somos"><span class="nav-menu__idx" aria-hidden="true">02</span>Quem somos</a></li>
+      <li><a href="#como-trabalhamos"><span class="nav-menu__idx" aria-hidden="true">03</span>Como trabalhamos</a></li>
+      <li><a href="#contato"><span class="nav-menu__idx" aria-hidden="true">04</span>Contato</a></li>
+    </ul>
+    <a class="btn btn--primary nav-menu__cta" href="/comecar/" data-form-link><span class="nav-menu__cta-label">Quero solicitar um orçamento</span><span class="nav-menu__cta-arrow" aria-hidden="true"><svg viewBox="0 0 16 16" width="15" height="15" fill="none"><path d="M3 13 13 3M5 3h8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+    <p class="nav-menu__meta">
+      <a href="https://wa.me/5513996625980" target="_blank" rel="noopener">(13) 99662-5980</a>
+      <a href="mailto:syacocompany@gmail.com">syacocompany@gmail.com</a>
+    </p>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ==================== 1 — HERO ==================== -->
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="shell hero__shell">
+    <div class="hero__copy">
+      <!-- ────────────────────────────────────────────────────────
+           HEADLINE — decisão do cliente vendo no ar.
+           As duas terminam em ponto final, então o efeito do ponto
+           3D (ele vira o "." da frase) funciona nas duas. Para
+           trocar: comente o bloco A, descomente o B, e troque o
+           <p class="lede"> correspondente.
+
+           OPÇÃO B:
+           <h1 class="h1 display" id="hero-title">
+             Estratégia, dados e tecnologia. No mesmo lugar<span
+               class="dot-period"><i class="dot-anchor" aria-hidden="true"></i>.</span>
+           </h1>
+           <p class="lede">A SYACO une marketing de performance e soluções
+             tecnológicas para levar sua marca do plano ao resultado.</p>
+           ──────────────────────────────────────────────────────── -->
+
+      <h1 class="h1 display" id="hero-title">Da estratégia ao resultado<span class="dot-period"><i class="dot-anchor" aria-hidden="true"></i>.</span></h1>
+
+      <p class="lede">Marketing e tecnologia trabalhando juntos para transformar negócios em máquinas de crescimento.</p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/comecar/" data-form-link>Quero solicitar um orçamento</a>
+        <a class="link-arrow" href="#como-trabalhamos">Veja como trabalhamos <!--@arrow--></a>
+      </div>
+    </div>
+  </div>
+
+  <p class="hero__scroll" aria-hidden="true">
+    <svg class="hero__scroll-icon" viewBox="0 0 24 60" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <line class="hero__scroll-track" x1="12" y1="4" x2="12" y2="44" />
+      <line class="hero__scroll-runner" x1="12" y1="4" x2="12" y2="44" stroke-dasharray="12 28" />
+      <path class="hero__scroll-tip" d="M5.5 46l6.5 6.5L18.5 46" />
+    </svg>
+  </p>
+</section>
+
+<!-- ==================== 2 — NÚMEROS (navy) ==================== -->
+<section class="section section--dark section--stats" aria-labelledby="stats-title">
+  <div class="shell">
+    <h2 id="stats-title" class="vh">A SYACO em números</h2>
+    <ul class="stats">
+      <!--@stats-->
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== 3 — QUEM SOMOS ==================== -->
+<section class="section section--about" id="quem-somos" data-below aria-labelledby="about-title">
+  <div class="shell about">
+    <header class="about__head">
+      <p class="about__eyebrow reveal">Quem somos</p>
+      <h2 id="about-title" class="h2 display reveal">Somos a SYACO<span class="dot-period"><i class="dot-anchor" data-about-anchor aria-hidden="true"></i>.</span></h2>
+      <div class="about__intro">
+        <p class="lede reveal">Uma agência full-service de marketing e tecnologia que transforma presença digital em vendas.</p>
+        <p class="about__claim display reveal">Não é só post bonito. É <em>crescimento real.</em></p>
+      </div>
+    </header>
+
+    <ul class="about__pillars">
+      <li class="pillar pillar--navy reveal">
+        <svg class="pillar__art" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="32" cy="32" r="31"/>
+          <circle class="pillar__fill" cx="64" cy="32" r="31"/>
+        </svg>
+        <h3 class="h3 display">Estratégia + tecnologia</h3>
+        <p>Um só time pensa e executa, do plano à automação.</p>
+      </li>
+      <li class="pillar pillar--cream reveal">
+        <svg class="pillar__art" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M7 57C36 57 52 38 87 8"/>
+          <circle cx="7" cy="57" r="6" fill="var(--surface-2)"/>
+          <circle class="pillar__fill" cx="87" cy="8" r="7"/>
+        </svg>
+        <h3 class="h3 display">Do zero ao resultado</h3>
+        <p>Acompanhamos sua marca em todas as etapas.</p>
+      </li>
+      <li class="pillar pillar--inferno reveal">
+        <svg class="pillar__art" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="1" y="44" width="18" height="19"/>
+          <rect x="26" y="30" width="18" height="33"/>
+          <rect x="51" y="16" width="18" height="47"/>
+          <rect class="pillar__fill" x="76" y="1" width="18" height="62"/>
+        </svg>
+        <h3 class="h3 display">Dados em cada decisão</h3>
+        <p>Processo claro e resultado que dá para medir.</p>
+      </li>
+    </ul>
+
+    <div class="about__proof reveal">
+      <h3 class="about__label">Setores que já atendemos</h3>
+      <ul class="about__sectors">
+        <li>Seguros</li>
+        <li>Estética</li>
+        <li>E-commerce</li>
+        <li class="about__sector-more"><em>e outros nichos</em></li>
+      </ul>
+    </div>
+
+    <div class="about__cta reveal">
+      <a class="btn btn--primary" href="/comecar/" data-form-link>Falar com a gente</a>
+      <a class="link-arrow" href="#servicos">Conheça nossos serviços <!--@arrow--></a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 4 — SERVIÇOS ==================== -->
+<section class="section section--services" id="servicos" data-below aria-labelledby="services-title">
+  <div class="services__pin">
+    <div class="shell">
+      <header class="section__head">
+        <h2 id="services-title" class="h2 display reveal">Nossos serviços</h2>
+        <p class="lede reveal">Tudo que sua marca precisa para crescer, em um só lugar.</p>
+      </header>
+    </div>
+
+    <div class="services__viewport" role="group" tabindex="0" aria-label="Lista de serviços, rolagem horizontal">
+      <ul class="services__track">
+        <!--@services-->
+      </ul>
+    </div>
+
+    <div class="shell services__foot">
+      <div class="services__rail" aria-hidden="true"><span class="services__rail-fill"></span></div>
+      <a class="link-arrow" href="#contato">Ver todos os serviços <!--@arrow--></a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 5 — EQUIPE ==================== -->
+<section class="section section--team" id="equipe" data-below aria-labelledby="team-title">
+  <div class="shell">
+    <header class="section__head">
+      <h2 id="team-title" class="h2 display reveal">Quem faz acontecer</h2>
+      <p class="lede reveal">Por trás de cada estratégia, um time que respira marketing e tecnologia.</p>
+    </header>
+
+    <!-- tabindex para o carrossel horizontal ser alcançável pelo teclado.
+         Sem role="group": num <ul> ele apaga a semântica de lista e deixa
+         os <li> órfãos (reprovado no axe). O aria-label nomeia a lista. -->
+    <ul class="team" tabindex="0" aria-label="Time da SYACO, rolagem horizontal no celular">
+      <!--@team-->
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== 6 — CASES (navy) ====================
+     A seção só existe se cases.json tiver case real.
+     Ver vite.config.js › renderCasesSection. -->
+<!--@cases-section-->
+
+<!-- ==================== 6B — COMO TRABALHAMOS ==================== -->
+<section class="section section--process" id="como-trabalhamos" data-below aria-labelledby="process-title">
+  <div class="shell">
+    <header class="section__head">
+      <h2 id="process-title" class="h2 display reveal">O caminho da estratégia ao resultado</h2>
+      <p class="lede reveal">Quatro etapas, um time só.</p>
+    </header>
+
+    <ol class="steps">
+      <!--@process-->
+    </ol>
+
+    <a class="btn btn--primary reveal" href="/comecar/" data-form-link>Quero solicitar um orçamento</a>
+  </div>
+</section>
+
+<!-- ==================== 7 — FEEDBACKS ====================
+     A seção só existe se testimonials.json tiver depoimento real.
+     Ver vite.config.js › renderTestimonials. -->
+<!--@testimonials-section-->
+
+<!-- ==================== 8 — CTA + CONTATO (navy) ==================== -->
+<section class="section section--dark section--contact" id="contato" data-below aria-labelledby="contact-title">
+  <div class="shell">
+    <div class="contact-card">
+      <div class="contact-card__intro">
+        <h2 id="contact-title" class="h2 display contact-card__title reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 7 10 10M17 7v10H7"/></svg>
+          Fale com a gente hoje
+        </h2>
+        <p class="lede reveal">Descubra como estratégia + tecnologia podem transformar seus resultados.</p>
+      </div>
+
+      <div class="contact-card__channels">
+
+        <div class="contact-card__ctas reveal">
+          <a class="btn btn--primary contact-card__cta" href="/comecar/" data-form-link>
+            Falar com a gente
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost contact-card__cta"
+             href="https://wa.me/5513996625980?text=Ol%C3%A1!%20Quero%20colocar%20minha%20marca%20no%20pr%C3%B3ximo%20n%C3%ADvel."
+             target="_blank" rel="noopener">
+            Chamar no WhatsApp
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          </a>
+        </div>
+
+        <ul class="contact-card__list reveal">
+          <li>
+            <a href="tel:+5513996625980">
+              <span class="contact-card__chip" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <span class="contact-card__text">
+                <span class="contact-card__label">Telefone</span>
+                (13) 99662-5980
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:syacocompany@gmail.com">
+              <span class="contact-card__chip" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <span class="contact-card__text">
+                <span class="contact-card__label">E-mail</span>
+                syacocompany@gmail.com
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/syacocompany" target="_blank" rel="noopener">
+              <span class="contact-card__chip" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              </span>
+              <span class="contact-card__text">
+                <span class="contact-card__label">Instagram</span>
+                @syacocompany
+              </span>
+            </a>
+          </li>
+        </ul>
+
+        <p class="contact-card__note reveal">Atendimento em todo o Brasil</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== 9 — FOOTER ==================== -->
+<footer class="footer">
+  <div class="shell footer__signature" aria-hidden="true">
+    <span class="footer__signature-origin"></span>
+    <span class="footer__signature-mark"></span>
+    <span class="footer__signature-wordmark"></span>
+  </div>
+
+  <div class="shell footer__inner">
+    <div class="footer__brand">
+      <p class="footer__line">Marketing e tecnologia no mesmo lugar. São Paulo e Santos, atendimento em todo o Brasil.</p>
+    </div>
+
+    <nav class="footer__nav" aria-label="Rodapé">
+      <a href="#servicos">Serviços</a>
+      <a href="#quem-somos">Quem somos</a>
+      <a href="#como-trabalhamos">Como trabalhamos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+
+    <div class="footer__meta">
+      <a href="https://www.instagram.com/syacocompany" target="_blank" rel="noopener">@syacocompany</a>
+      <a href="mailto:syacocompany@gmail.com">syacocompany@gmail.com</a>
+      <!-- CNPJ / razão social entram aqui quando a Syaco definir. -->
+      <p class="footer__copy">© <span id="year">2026</span> SYACO. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5513996625980" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.08-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.13-.27-.2-.57-.35M12.05 21.6h-.02a9.5 9.5 0 0 1-4.85-1.33l-.35-.2-3.6.94.96-3.51-.23-.36a9.47 9.47 0 0 1-1.45-5.06c0-5.24 4.28-9.5 9.55-9.5a9.5 9.5 0 0 1 9.53 9.51c0 5.24-4.28 9.5-9.54 9.5M20.52 3.48A11.82 11.82 0 0 0 12.05 0C5.5 0 .18 5.3.17 11.82c0 2.08.55 4.12 1.6 5.92L.07 24l6.4-1.67a11.9 11.9 0 0 0 5.58 1.42h.01c6.55 0 11.87-5.31 11.88-11.83a11.73 11.73 0 0 0-3.44-8.36"/></svg>
+</a>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "syaco-lp",
+  "compatibility_date": "2026-11-01",
+  // Só arquivos estáticos: não existe Worker script. O _headers e o 404.html
+  // saem de public/ e da raiz, e chegam aqui pela build do Vite.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  // O www redireciona para cá por uma Redirect Rule (ver DEPLOY.md).
+  "routes": [{ "pattern": "syaco.com.br", "custom_domain": true }],
+  // Sem URLs paralelas: evita conteúdo duplicado no Google.
+  "workers_dev": false,
+  "preview_urls": false
+}

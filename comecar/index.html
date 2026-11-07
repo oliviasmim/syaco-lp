@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR" class="is-dark fx-page">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vamos conversar — SYACO</title>
+<meta name="description" content="Conte um pouco do seu negócio e veja como a SYACO pode caminhar junto com você. Resposta em até 1 dia útil pelo WhatsApp.">
+<!-- Página de conversão: fica fora do índice e do sitemap. -->
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#13273F">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="SYACO">
+<meta property="og:title" content="Vamos conversar — SYACO">
+<meta property="og:description" content="7 perguntas rápidas para a gente conhecer o seu negócio.">
+<meta property="og:url" content="%SITE_URL%/comecar/">
+<meta property="og:image" content="%SITE_URL%/og.jpg">
+
+<!-- Antes do primeiro paint: o CSS esconde .reveal só com html.js. -->
+<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="/src/styles/form-page.css">
+<script type="module" crossorigin src="/src/form/main.js"></script>
+</head>
+
+<body>
+<a class="skip-link" href="#fx-stage">Pular para o formulário</a>
+
+<header class="fx-top">
+  <a class="fx-top__brand" href="/">
+    <span class="fx-top__wordmark" aria-hidden="true"></span>
+    <span class="vh">SYACO — voltar ao site</span>
+  </a>
+
+  <div class="fx-progress" data-hidden>
+    <div class="fx-progress__track" role="progressbar" aria-label="Progresso do formulário"
+         aria-valuemin="0" aria-valuemax="7" aria-valuenow="0">
+      <span class="fx-progress__fill"></span>
+    </div>
+    <p class="fx-progress__count u-num" aria-hidden="true"><span data-count>1</span> / 7</p>
+  </div>
+
+  <a class="fx-top__exit" href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    <span>Sair</span>
+  </a>
+</header>
+
+<form class="fx-form" id="fx-form" novalidate autocomplete="on">
+  <!-- Honeypot: invisível para gente, irresistível para robô. -->
+  <div class="fx-hp" aria-hidden="true">
+    <label for="fx-website">Site</label>
+    <input id="fx-website" name="website" type="text" tabindex="-1" autocomplete="off">
+  </div>
+
+  <main class="fx-stage" id="fx-stage" tabindex="-1">
+    <!-- Sem JS: o formulário não roda, mas o contato continua a um toque. -->
+    <noscript>
+      <section class="fx-screen fx-intro">
+        <h1 class="fx-intro__title display">Vamos conversar</h1>
+        <p class="fx-intro__text">Para responder o formulário, ative o JavaScript. Ou fale direto com a gente:</p>
+        <a class="btn btn--primary" href="https://wa.me/5513996625980">Chamar no WhatsApp</a>
+      </section>
+    </noscript>
+  </main>
+
+  <footer class="fx-bar" data-hidden>
+    <div class="fx-bar__inner">
+      <button class="fx-bar__back" type="button" data-back>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        <span>Voltar</span>
+      </button>
+
+      <p class="fx-bar__hint" aria-hidden="true">aperte <kbd>Enter ↵</kbd></p>
+
+      <button class="btn btn--primary fx-bar__next" type="submit" data-next>
+        <span class="fx-spinner" aria-hidden="true"></span>
+        <span data-next-label>OK</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </footer>
+</form>
+
+<p class="vh" id="fx-status" aria-live="polite"></p>
+</body>
+</html>

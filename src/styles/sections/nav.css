@@ -1,0 +1,240 @@
+@layer sections {
+
+.nav {
+  position: fixed;
+  inset-block-start: 16px;
+  inset-inline: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--gutter);
+  pointer-events: none;
+}
+
+.nav__pill {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  max-width: var(--container);
+  padding: 8px 8px 8px 24px;
+  border: 1px solid var(--page-hairline);
+  border-radius: 999px;
+  background-color: color-mix(in oklab, var(--page-bg) 72%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  transition:
+    background-color var(--dur-in) linear,
+    border-color var(--dur-in) linear,
+    box-shadow var(--dur-in) linear,
+    transform 320ms var(--ease-out);
+}
+
+/* Some no scroll para baixo, volta no scroll para cima. */
+.nav[data-hidden="true"] .nav__pill { transform: translateY(calc(-100% - 24px)); }
+
+/* Fora do topo: mais opacidade + sombra — a pill “assenta” sobre a página. */
+.nav[data-scrolled="true"] .nav__pill {
+  background-color: color-mix(in oklab, var(--page-bg) 88%, transparent);
+  box-shadow: 0 12px 32px -18px color-mix(in oklab, var(--surface-deep) 60%, transparent);
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  flex: none;
+  height: 44px;
+  text-decoration: none;
+  color: var(--page-ink);
+}
+
+/* Wordmark completo (2864×1060 ≈ 2,70:1). Proporção original preservada. */
+.nav__wordmark {
+  display: block;
+  width: 65px;
+  height: 24px;
+  background-color: currentColor;
+  -webkit-mask: url("/syaco-wordmark.svg") left center / contain no-repeat;
+  mask: url("/syaco-wordmark.svg") left center / contain no-repeat;
+}
+
+.nav__links {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  margin-inline-start: auto;
+}
+
+.nav__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 14px;
+  border-radius: 999px;
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--page-ink-muted);
+  text-decoration: none;
+  transition: color var(--dur-in) var(--ease-out), background-color var(--dur-in) var(--ease-out);
+}
+
+.nav__links a:hover {
+  color: var(--page-ink);
+  background-color: color-mix(in oklab, var(--page-ink) 7%, transparent);
+}
+
+/* Seção atual — ponto ember + peso. Forma e peso, nunca só cor.
+   --page-accent já resolve inferno (claro) → ember (navy). */
+.nav__links a[aria-current="true"] {
+  color: var(--page-ink);
+  font-weight: 600;
+}
+.nav__links a[aria-current="true"]::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--page-accent);
+  margin-inline-end: 9px;
+}
+
+/* CTA split: rótulo + câmara da seta separada por hairline. */
+.nav__cta {
+  display: none;
+  gap: 0;
+  min-height: 44px;
+  padding: 3px 3px 3px 19px;
+  border-radius: 999px;
+  font-size: var(--step--1);
+}
+.nav__cta-label { padding-inline-end: 14px; }
+.nav__cta-arrow {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  border-inline-start: 1px solid color-mix(in oklab, currentColor 26%, transparent);
+}
+.nav__cta-arrow svg { display: block; transition: transform var(--dur-in) var(--ease-out); }
+.nav__cta:hover .nav__cta-arrow svg { transform: translate(2px, -2px); }
+
+.nav__toggle {
+  margin-inline-start: auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  color: var(--page-ink);
+}
+
+.nav__toggle-bars {
+  display: grid;
+  gap: 5px;
+  width: 19px;
+}
+.nav__toggle-bars i {
+  display: block;
+  height: 1.5px;
+  background-color: currentColor;
+  transition: transform 220ms var(--ease-out), opacity 160ms linear;
+}
+.nav__toggle[aria-expanded="true"] .nav__toggle-bars i:first-child { transform: translateY(3.25px) rotate(45deg); }
+.nav__toggle[aria-expanded="true"] .nav__toggle-bars i:last-child  { transform: translateY(-3.25px) rotate(-45deg); }
+
+@media (min-width: 900px) {
+  .nav__links { display: flex; }
+  .nav__cta   { display: inline-flex; }
+  .nav__toggle { display: none; }
+  .nav__brand { margin-inline-end: var(--s-2); }
+  .nav__wordmark { width: 84px; height: 31px; }
+}
+
+/* ---------- Overlay mobile ---------- */
+
+.nav-menu {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-nav) - 1);
+  display: grid;
+  background-color: var(--page-bg);
+  opacity: 0;
+  transition: opacity 260ms var(--ease-out);
+}
+
+.nav-menu[hidden] { display: none; }
+.nav-menu[data-open="true"] { opacity: 1; }
+
+.nav-menu__inner {
+  align-self: center;
+  width: 100%;
+  padding: 96px var(--gutter) var(--s-5);
+  display: grid;
+  gap: var(--s-4);
+}
+
+.nav-menu__links { display: grid; gap: var(--s-1); margin: 0; }
+
+.nav-menu__links a {
+  display: flex;
+  align-items: baseline;
+  padding-block: 10px;
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--display-wdth), "wght" 700;
+  font-size: var(--step-2);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--page-ink);
+  text-decoration: none;
+}
+
+.nav-menu__idx {
+  font-family: var(--font-serif);
+  font-variation-settings: normal;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.42em;
+  letter-spacing: 0.02em;
+  color: var(--ember);
+  margin-inline-end: var(--s-2);
+}
+
+.nav-menu__links a[aria-current="true"] { color: var(--page-accent); }
+
+/* CTA split no overlay: rótulo à esquerda, câmara da seta à direita. */
+.nav-menu__cta {
+  width: 100%;
+  gap: 0;
+  padding: 4px 4px 4px var(--s-3);
+  border-radius: 999px;
+}
+.nav-menu__cta-label { flex: 1; padding-inline-end: var(--s-2); }
+.nav-menu__cta-arrow {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  border-inline-start: 1px solid color-mix(in oklab, currentColor 26%, transparent);
+}
+.nav-menu__cta-arrow svg { display: block; transition: transform var(--dur-in) var(--ease-out); }
+.nav-menu__cta:hover .nav-menu__cta-arrow svg { transform: translate(2px, -2px); }
+
+.nav-menu__meta {
+  display: grid;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-weight: 450;
+  font-size: var(--step--1);
+  color: var(--page-ink-muted);
+}
+.nav-menu__meta a { color: inherit; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.nav-menu__meta a:hover { color: var(--page-ink); }
+
+@media (min-width: 900px) { .nav-menu { display: none; } }
+
+body[data-menu-open] { overflow: hidden; }
+
+}

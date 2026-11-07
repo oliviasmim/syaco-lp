@@ -1,0 +1,26 @@
+[
+  {
+    "n": "01",
+    "title": "Diagnóstico",
+    "desc": "Entendemos seu negócio, seu público e onde sua presença digital está travando.",
+    "visual": "diagnostico"
+  },
+  {
+    "n": "02",
+    "title": "Estratégia",
+    "desc": "Definimos canais, mensagem e metas antes de investir o primeiro real.",
+    "visual": "estrategia"
+  },
+  {
+    "n": "03",
+    "title": "Execução",
+    "desc": "Conteúdo, campanhas, páginas e automações rodando no mesmo fluxo.",
+    "visual": "execucao"
+  },
+  {
+    "n": "04",
+    "title": "Medição",
+    "desc": "Acompanhamos os números e ajustamos o que precisa mudar.",
+    "visual": "medicao"
+  }
+]

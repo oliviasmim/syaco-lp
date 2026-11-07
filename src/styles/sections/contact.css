@@ -1,0 +1,167 @@
+@layer sections {
+
+/* ---------- Card de contato ------------------------------------
+   Bloco de fechamento da página: navy levantado sobre a seção
+   deep, radius 16px (meio-termo combinado com a marca, cujo
+   padrão é 2px) — destaque visual sem quebrar a identidade. */
+
+.contact-card {
+  display: grid;
+  gap: var(--s-4);
+  /* Padding menor no mobile: com 40px de cada lado sobrava menos de
+     200px para os canais e o e-mail quebrava o meio. */
+  padding: var(--s-3);
+  border: 1px solid var(--hairline-inv);
+  border-radius: 16px;
+  background-color: color-mix(in oklab, var(--cream) 9%, var(--surface-dark));
+  box-shadow: 0 24px 64px color-mix(in oklab, var(--surface-deep) 55%, transparent);
+}
+
+@media (min-width: 900px) {
+  .contact-card {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--s-6);
+    padding: var(--s-6);
+    align-items: center;
+  }
+}
+
+/* ---------- Intro (esquerda) ----------------------------------- */
+
+.contact-card__intro { display: grid; gap: var(--s-2); align-content: start; }
+
+.contact-card__title {
+  max-width: 14ch;
+  color: var(--ink-invert);
+}
+
+/* Seta decorativa ancorada no título, como na referência. --ember
+   é declarado para detalhe aceso sobre navy exatamente assim. */
+.contact-card__title svg {
+  display: inline-block;
+  width: 0.65em;
+  height: 0.65em;
+  vertical-align: baseline;
+  color: var(--ember);
+}
+
+.contact-card__intro .lede { color: var(--ink-invert-muted); }
+
+/* ---------- Canais (direita) ----------------------------------- */
+
+.contact-card__channels {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}
+
+/* Formulário primeiro, WhatsApp como saída para quem prefere
+   conversar direto. */
+.contact-card__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contact-card__cta {
+  justify-self: start;
+  border-radius: 12px;
+}
+
+.contact-card__cta svg { width: 18px; height: 18px; }
+
+.contact-card__list {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+}
+
+.contact-card__list a {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  color: var(--ink-invert);
+  text-decoration: none;
+}
+
+.contact-card__chip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--cream);
+  color: var(--navy);
+  transition:
+    transform var(--dur-in) var(--ease-out),
+    background-color var(--dur-in) var(--ease-out);
+}
+
+.contact-card__chip svg { width: 18px; height: 18px; }
+
+.contact-card__list a:hover .contact-card__chip {
+  background-color: var(--surface-1);
+  transform: translateY(-2px);
+}
+
+.contact-card__text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.contact-card__label {
+  font-family: var(--font-body);
+  font-variation-settings: "wdth" var(--label-wdth), "wght" var(--label-wght);
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-invert-muted);
+}
+
+.contact-card__note {
+  font-size: var(--step--1);
+  color: var(--ink-invert-muted);
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--hairline-inv);
+}
+
+/* ---------- WhatsApp flutuante ---------- */
+
+.wa-float {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: calc(var(--z-nav) - 2);
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--navy);
+  color: var(--surface-1);
+  box-shadow: 0 6px 24px color-mix(in oklab, var(--navy) 28%, transparent);
+  transition:
+    transform var(--dur-in) var(--ease-out),
+    opacity var(--dur-in) linear,
+    visibility 0s linear var(--dur-in);
+}
+
+.wa-float svg { width: 26px; height: 26px; }
+.wa-float:hover { transform: translateY(-2px); }
+
+/* Com a seção de contato à vista o botão simplesmente sai: o CTA
+   de WhatsApp e o número já estão na tela, então ele não acrescenta
+   nada e só disputa espaço. */
+body[data-contact-visible] .wa-float {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (min-width: 900px) { .wa-float { display: none; } }
+
+}

@@ -1,0 +1,116 @@
+@layer sections {
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding-block: 140px var(--s-6);
+}
+
+.hero__shell { width: 100%; }
+
+/* Alinhada à esquerda, começando no terço superior.
+   O respiro absurdo à direita é onde o ponto vive. */
+.hero__copy {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 17ch;
+}
+
+.hero .h1 { max-width: 14ch; }
+
+/* O ponto final da headline.
+   Em modo full o glifo fica invisível (mas ocupa o mesmo espaço, para
+   o layout não pular) e o ponto 3D pousa exatamente aqui. */
+/* Mesma cor do texto — e do ponto 3D, que é navy. Assim os três
+   modos (full, static, none) mostram a mesma coisa. */
+.dot-period { position: relative; }
+
+/* Um inline-block de tamanho zero alinhado à baseline, colocado
+   imediatamente ANTES do ".". Assim rect.top É a baseline e
+   rect.left É a borda esquerda do glifo — sem chute. O diâmetro e
+   o centro da tinta saem do measureText do canvas 2D. */
+.dot-anchor {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: baseline;
+  pointer-events: none;
+}
+
+/* html.scene-live é posto pelo scene/index.js depois que o renderer
+   existe de fato: sem canvas, o ponto final de verdade continua lá.
+   O glifo só some no ato em que o ponto 3D está pousado nele. Quando
+   o ponto segue para a próxima seção, a frase recupera o próprio. */
+html.scene-live[data-scene-act="hero"] .hero .dot-period,
+html.scene-live[data-scene-act="about"] .section--about .dot-period { opacity: 0; }
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+
+.hero__scroll {
+  position: absolute;
+  inset-block-end: var(--s-4);
+  inset-inline-start: var(--gutter);
+  color: var(--page-ink-muted);
+}
+
+.hero__scroll-icon { display: block; width: 14px; height: 35px; }
+
+.hero__scroll-track { stroke: var(--page-hairline); }
+
+.hero__scroll-runner {
+  stroke: currentColor;
+  animation: scroll-run 2.4s var(--ease-out) infinite;
+}
+
+.hero__scroll-tip { animation: scroll-tip 2.4s var(--ease-out) infinite; }
+
+@keyframes scroll-run {
+  0%      { stroke-dashoffset: 40;  opacity: 0; }
+  12%     { opacity: 1; }
+  70%     { opacity: 1; }
+  100%    { stroke-dashoffset: -12; opacity: 0; }
+}
+
+@keyframes scroll-tip {
+  0%, 100% { opacity: 0.45; }
+  60%, 75% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-runner,
+  .hero__scroll-tip { animation: none; }
+}
+
+@media (min-width: 768px) {
+  .hero__copy { max-width: 22ch; gap: var(--s-4); }
+  .hero .lede { max-width: 34ch; }
+}
+
+@media (min-width: 1024px) {
+  /* A headline tem que caber na altura da janela junto com o CTA.
+     Medido em 1440×900: com --step-4 cheio ela dava 4 linhas de
+     138px e o hero ficava 1099px de altura — ou seja, o botão
+     principal ficava abaixo da dobra E fora do pin. O cap por vh
+     resolve sem mudar a escala tipográfica do resto da página. */
+  .hero { padding-block: 132px var(--s-4); align-items: center; }
+  .hero__copy { max-width: min(58%, 660px); gap: var(--s-3); }
+  .hero .h1 { max-width: 11ch; font-size: min(var(--step-4), 12.5vh); }
+  .hero .lede { max-width: 32ch; }
+  .hero__actions { margin-top: var(--s-1); }
+}
+
+/* Landscape de celular: 100svh + nav fixa colidem. Solta a altura. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero { min-height: auto; padding-block: 120px var(--s-5); }
+  .hero__scroll { display: none; }
+}
+
+}

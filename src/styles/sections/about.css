@@ -1,0 +1,167 @@
+@layer sections {
+
+/* Escaneável em poucos segundos: posicionamento, três pilares, prova
+   e ação. As cores dos cards são fixas: não seguem --page-*, porque
+   cada um é uma superfície própria da marca, igual nos dois temas. */
+
+.about {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.about__head {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+
+.about__head h2 { max-width: 15ch; }
+
+.about__intro {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.about__head .lede {
+  max-width: 38ch;
+  color: var(--page-ink-muted);
+}
+
+.about__claim {
+  font-size: var(--step-2);
+  line-height: 1.05;
+  max-width: 18ch;
+}
+
+.about__claim em { color: var(--page-accent); }
+
+.about__eyebrow,
+.about__label {
+  font-family: var(--font-body);
+  font-variation-settings: "wdth" var(--label-wdth), "wght" var(--label-wght);
+  font-size: var(--step--1);
+  font-weight: inherit;
+  line-height: 1.6;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--page-accent);
+}
+
+/* ---------- Pilares ---------- */
+
+.about__pillars {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+}
+
+.pillar {
+  display: grid;
+  align-content: start;
+  gap: var(--s-1);
+  padding: var(--s-3);
+  border-radius: var(--radius-card);
+  background-color: var(--pillar-bg);
+  color: var(--pillar-ink);
+}
+
+.pillar--navy {
+  --pillar-bg: var(--surface-dark);
+  --pillar-ink: var(--ink-invert);
+  --pillar-art: var(--ember);
+}
+.pillar--cream {
+  --pillar-bg: var(--surface-2);
+  --pillar-ink: var(--ink);
+  --pillar-art: var(--accent);
+}
+.pillar--inferno {
+  --pillar-bg: var(--accent);
+  --pillar-ink: var(--surface-1);
+  --pillar-art: var(--cream);
+}
+
+.pillar__art {
+  width: 84px;
+  height: auto;
+  overflow: visible;
+  margin-bottom: var(--s-3);
+}
+
+.pillar__fill {
+  fill: var(--pillar-art);
+  stroke: var(--pillar-art);
+}
+
+.pillar p { max-width: 30ch; }
+
+/* ---------- Prova ----------
+   Ocupa o lugar de uma parede de logos enquanto não há autorização
+   para citar clientes. Troque cada <li> pelo logo quando houver. */
+
+.about__proof {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.about__sectors {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0;
+  border-block-start: 1px solid var(--page-hairline);
+  border-inline-start: 1px solid var(--page-hairline);
+}
+
+.about__sectors li {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  padding: var(--s-2);
+  text-align: center;
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--display-wdth), "wght" 600;
+  font-size: var(--step-0);
+  letter-spacing: -0.015em;
+  border-block-end: 1px solid var(--page-hairline);
+  border-inline-end: 1px solid var(--page-hairline);
+}
+
+.about__sectors .about__sector-more {
+  color: var(--page-ink-muted);
+  font-family: var(--font-serif);
+  font-variation-settings: normal;
+  font-size: var(--step-1);
+  letter-spacing: 0;
+}
+
+/* ---------- Ação ---------- */
+
+.about__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-4);
+}
+
+.about__cta .link-arrow { align-self: center; }
+
+@media (min-width: 768px) {
+  .about__pillars { grid-template-columns: repeat(3, 1fr); }
+  .pillar { padding: var(--s-4) var(--s-3); }
+  .pillar__art { margin-bottom: var(--s-5); }
+  .about__sectors { grid-template-columns: repeat(4, 1fr); }
+  .about__sectors li { min-height: 128px; }
+}
+
+@media (min-width: 1024px) {
+  .about { gap: var(--s-5); }
+  .about__head {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--s-5);
+    align-items: start;
+  }
+  .about__eyebrow { grid-column: 1 / -1; }
+  .pillar { padding: var(--s-4); }
+}
+
+}

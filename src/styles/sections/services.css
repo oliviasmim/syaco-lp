@@ -1,0 +1,476 @@
+@layer sections {
+
+.section__head {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+  margin-bottom: var(--s-5);
+  max-width: 44ch;
+}
+
+.section__head .lede { color: var(--page-ink-muted); }
+
+/* ---------- Trilha ----------
+   Base: swipe horizontal nativo com snap (sem JS, celular deitado ou
+   tela baixa demais). .is-pinned, posta pelo JS, troca isso pelo track
+   dirigido pela rolagem da página.                              */
+
+.services__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-inline: var(--gutter);
+  padding-block-end: var(--s-2);
+  margin-inline: auto;
+  max-width: calc(var(--container));
+}
+.services__viewport::-webkit-scrollbar { display: none; }
+
+.services__track {
+  display: flex;
+  gap: var(--s-2);
+  margin: 0;
+  width: max-content;
+}
+
+.svc {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: min(84vw, 340px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border: 1px solid var(--page-hairline);
+  border-radius: var(--radius-card);
+  transition:
+    border-color var(--dur-in) var(--ease-out),
+    transform var(--dur-in) var(--ease-out);
+}
+
+.svc:hover,
+.svc:focus-within {
+  border-color: var(--page-accent);
+  transform: translateY(-4px);
+}
+
+.svc__body {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: var(--s-3);
+}
+
+/* Ponto de criatividade: numeração de catálogo em serifada
+   itálica — o sussurro contra os títulos em Archivo Expanded.
+   Fica no canto do card, para o título abrir o bloco de texto. */
+.svc__n {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-0);
+  letter-spacing: 0.02em;
+  color: var(--page-accent);
+}
+
+.svc__title { color: var(--page-ink); padding-right: var(--s-4); }
+
+.svc__desc { color: var(--page-ink-muted); font-size: var(--step-0); }
+
+/* ---------- Palco da animação ----------
+   O painel branco é fixo nos dois temas: é "a tela de um produto"
+   sobre o creme da marca. Tudo aqui desenha em navy/inferno, que
+   têm contraste sobre branco.                                     */
+
+.svc__stage {
+  position: relative;
+  height: 188px;
+  container-type: size;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background-color: var(--page-card);
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--navy) 16%, transparent) 1px,
+    transparent 1.2px
+  );
+  background-size: 16px 16px;
+  border-bottom: 1px solid var(--page-hairline);
+}
+
+.v {
+  --v-line: color-mix(in oklab, var(--navy) 14%, transparent);
+  --v-soft: color-mix(in oklab, var(--navy) 12%, var(--surface-1));
+  position: relative;
+  width: 248px;
+  height: 148px;
+  color: var(--navy);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.vm {
+  background-color: var(--surface-1);
+  border: 1px solid var(--v-line);
+  border-radius: var(--radius-control);
+  box-shadow: 0 6px 18px color-mix(in oklab, var(--navy) 10%, transparent);
+}
+
+.vlabel,
+.vlive,
+.vchip,
+.vs-day b,
+.vw-cta,
+.va-node {
+  font-variation-settings: "wdth" var(--label-wdth), "wght" var(--label-wght);
+  letter-spacing: 0.02em;
+}
+
+.sk {
+  display: block;
+  height: 6px;
+  border-radius: 1px;
+  background-color: var(--v-soft);
+}
+.sk--ink { height: 9px; background-color: var(--navy); }
+
+.vchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px 4px 5px;
+  border-radius: var(--radius-control);
+  background-color: var(--navy);
+  color: var(--ink-invert);
+  white-space: nowrap;
+}
+.vchip svg { width: 11px; height: 11px; }
+
+/* O mockup acompanha o palco, que muda de altura com a tela. */
+@container (max-height: 160px) { .v { transform: scale(0.74); } }
+@container (min-width: 330px) and (min-height: 200px) { .v { transform: scale(1.25); } }
+
+/* 01 — redes sociais: semana de pauta + post publicado */
+.v--social { display: grid; align-content: center; gap: 8px; }
+
+.vs-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 8px 6px;
+}
+.vs-day { display: grid; justify-items: center; gap: 6px; color: var(--ink-muted); }
+.vs-day i {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background-color: var(--v-soft);
+}
+.vs-day.is-on i { background-color: var(--inferno); }
+
+.vs-post {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+}
+.vs-thumb {
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 2px;
+  background-color: var(--navy);
+  color: var(--cream);
+}
+.vs-heart { display: block; width: 24px; height: 24px; }
+.vs-heart svg { display: block; width: 100%; height: 100%; }
+.vs-lines { display: grid; justify-items: start; gap: 7px; }
+.vs-lines .sk { width: 100%; }
+
+/* 02 — tráfego: retorno descolando do investimento */
+.vt { position: relative; height: 100%; padding: 10px 12px; display: grid; align-content: space-between; }
+.vt-head { display: flex; justify-content: space-between; align-items: center; }
+.vlive { display: inline-flex; align-items: center; gap: 4px; color: var(--ink-muted); }
+.vlive i { width: 6px; height: 6px; border-radius: 50%; background-color: var(--inferno); }
+.vt-chart { display: block; width: 100%; height: 62px; overflow: visible; fill: none; }
+.vt-grid { stroke: var(--v-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.vt-area { fill: color-mix(in oklab, var(--inferno) 10%, transparent); }
+.vt-base,
+.vt-line,
+.vb-guides > *,
+.va-wire { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.vt-base { stroke: var(--ink-muted); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.vt-line { stroke: var(--inferno); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.vt-dot {
+  position: absolute;
+  top: 31px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--inferno);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--inferno) 18%, transparent);
+}
+.vt-rows { display: grid; grid-template-columns: auto 1fr; gap: 5px 8px; align-items: center; }
+.vt-bar { display: block; height: 5px; background-color: var(--v-soft); border-radius: 1px; }
+.vt-bar i { display: block; height: 100%; background-color: var(--navy); border-radius: 1px; }
+
+/* 03 — sites: a página se monta e o clique vira lead */
+.vw {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+.vw-bar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--v-line);
+}
+.vw-bar > i { width: 5px; height: 5px; border-radius: 50%; background-color: var(--v-soft); }
+.vw-url { flex: 1; height: 8px; margin-left: 6px; border-radius: 1px; background-color: var(--v-soft); }
+.vw-page { display: grid; align-content: center; justify-items: start; gap: 7px; padding: 10px; }
+.vw-page .sk { width: 100%; }
+.vw-cta {
+  margin-top: 4px;
+  padding: 6px 8px;
+  border-radius: var(--radius-control);
+  background-color: var(--inferno);
+  color: var(--surface-1);
+  white-space: nowrap;
+}
+.vw-media { margin: 10px 10px 10px 0; border-radius: 2px; background-color: var(--cream); }
+.vw-cursor {
+  position: absolute;
+  left: 76px;
+  top: 112px;
+  width: 16px;
+  height: 16px;
+  fill: var(--navy);
+  stroke: var(--surface-1);
+  stroke-width: 1;
+}
+.vw-toast { position: absolute; right: -8px; bottom: 10px; box-shadow: 0 6px 16px color-mix(in oklab, var(--navy) 26%, transparent); }
+
+/* 04 — branding: construção da marca, tipo e paleta */
+.v--brand { display: grid; grid-template-columns: 148px 1fr; gap: 8px; }
+.vb-mark { display: grid; place-items: center; padding: 10px; }
+.vb-mark svg { width: 100%; height: 100%; overflow: visible; }
+.vb-guides > * { stroke: color-mix(in oklab, var(--inferno) 55%, transparent); stroke-width: 0.75; opacity: 1; }
+.vb-guides { opacity: 0.35; }
+.vb-shape--a { fill: var(--navy); }
+.vb-shape--b { fill: var(--inferno); }
+.vb-side { display: grid; grid-template-rows: 1fr auto; gap: 8px; }
+.vb-type { position: relative; display: grid; place-items: center; }
+.vb-aa {
+  grid-area: 1 / 1;
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--display-wdth), "wght" var(--display-wght);
+  font-size: 36px;
+  opacity: 0;
+}
+.vb-aa--alt {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: normal;
+  font-size: 46px;
+  opacity: 1;
+}
+.vb-swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.vb-sw {
+  height: 24px;
+  border-radius: 2px;
+  border: 1px solid var(--v-line);
+}
+.vb-sw--navy { background-color: var(--navy); }
+.vb-sw--cream { background-color: var(--cream); }
+.vb-sw--inferno { background-color: var(--inferno); }
+.vb-sw--soil { background-color: var(--soil); }
+
+/* 05 — automação: o lead percorre o fluxo sozinho */
+.va-wires { position: absolute; inset: 4px 0; width: 100%; height: 140px; }
+.va-wire { stroke: var(--inferno); stroke-width: 1.5; }
+.va-node {
+  position: absolute;
+  width: 66px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-inline: 7px;
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+.va-tick {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--inferno);
+  color: var(--surface-1);
+}
+.va-tick svg { width: 10px; height: 10px; }
+.va-1 { left: 0; top: 58px; }
+.va-2 { left: 88px; top: 58px; }
+.va-3 { left: 182px; top: 14px; }
+.va-4 { left: 182px; top: 102px; }
+
+/* ---------- Rodapé: rail + CTA ---------- */
+
+.services__foot {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+  justify-items: start;
+}
+
+.services__rail {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background-color: var(--page-hairline);
+}
+
+.services__rail-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 0%;
+  background-color: var(--page-accent);
+  transform-origin: left center;
+}
+
+/* ---------- Pinned: desktop e celular em pé ----------
+   overflow: clip (e não visible) porque o track tem width: max-content:
+   visível, ele estourava a largura do documento e a página inteira
+   ganhava scroll horizontal. Clipando aqui, os cards entram e saem
+   pelas bordas da tela, que é o comportamento desejado. */
+.section--services.is-pinned .services__viewport {
+  overflow: clip;
+  overflow-clip-margin: 0;
+  scroll-snap-type: none;
+  padding-inline: 0;
+  padding-block-end: 0;
+  max-width: none;
+  width: 100%;
+}
+
+.section--services.is-pinned .services__track {
+  padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  will-change: transform;
+}
+
+/* Celular/tablet em pé: tudo precisa caber em 100svh. Título numa
+   linha, palco elástico (410px é tudo o que não é palco num celular)
+   e rodapé empilhado, com o trilho parando antes do botão flutuante
+   de WhatsApp. Só com JS: sem ele não há pin. */
+@media (max-width: 1023px) and (orientation: portrait) {
+  html.js .section--services { padding-block: 0; }
+
+  html.js .services__pin {
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 14px;
+    padding-block: 80px 16px;
+  }
+
+  /* Sem isso, a margin auto da base encolhe o item do grid para o
+     conteúdo: o track estica o documento e o celular dá zoom out. */
+  html.js .services__viewport { width: 100%; }
+
+  html.js .section--services .section__head { gap: 6px; margin-bottom: 0; max-width: none; }
+
+  html.js .section--services .section__head .h2 {
+    font-size: min(10.2vw, var(--step-3));
+    white-space: nowrap;
+  }
+
+  html.js .section--services .section__head .lede {
+    font-size: var(--step-0);
+    max-width: none;
+  }
+
+  html.js .svc__stage { height: clamp(116px, calc(100svh - 410px), 188px); }
+
+  html.js .svc__body { gap: 6px; padding: var(--s-2); }
+
+  html.js .svc__n { top: var(--s-2); right: var(--s-2); }
+
+  html.js .svc__desc { font-size: 15px; line-height: 1.4; }
+
+  html.js .services__foot {
+    gap: 8px;
+    margin-top: 0;
+    padding-inline-end: calc(var(--gutter) + 64px);
+  }
+}
+
+/* Tablet em pé: sobra altura, então card e palco crescem. */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  html.js .svc { width: 440px; }
+
+  html.js .svc__stage { height: clamp(188px, calc(100svh - 500px), 340px); }
+}
+
+@media (min-width: 1024px) {
+  .section--services { padding-block: 0; }
+
+  .services__pin {
+    min-height: 100svh;
+    display: grid;
+    /* minmax(0,1fr) é obrigatório: o track tem width:max-content e,
+       sem isso, ele estica a coluna do grid e empurra o cabeçalho
+       (que vive num .shell centrado) para fora do alinhamento. */
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: var(--s-3);
+    /* Nada de --section-y aqui: com a seção pinada em 100svh, o
+       respiro normal (130px em cima e embaixo) empurrava o trilho de
+       progresso — e o ponto 3D que corre nele — para fora da tela.
+       O grid já centraliza; o topo só precisa livrar a nav. */
+    padding-block: 108px var(--s-4);
+  }
+
+  /* Título numa linha, com o lede ao lado: a altura sai do cabeçalho
+     e vai para o palco das animações, sem estourar os 100svh do pin. */
+  .section--services .section__head {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--s-4);
+    max-width: none;
+    margin-bottom: 0;
+  }
+
+  .section--services .section__head .h2 { white-space: nowrap; }
+
+  .svc { width: 380px; }
+
+  /* Palco elástico: 547px é tudo o que não é palco dentro do pin
+     (padding, cabeçalho, corpo do card, rodapé). */
+  .svc__stage { height: clamp(164px, calc(100svh - 547px), 300px); }
+
+  .svc__body { padding: 20px var(--s-3) var(--s-3); }
+
+  .services__foot {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-4);
+    margin-top: var(--s-2);
+  }
+}
+
+}

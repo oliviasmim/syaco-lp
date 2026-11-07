@@ -1,0 +1,32 @@
+[
+  {
+    "n": "01",
+    "title": "Gestão de Redes Sociais",
+    "desc": "Conteúdo estratégico, consistente e feito para conectar com o seu público certo.",
+    "visual": "social"
+  },
+  {
+    "n": "02",
+    "title": "Tráfego Pago",
+    "desc": "Campanhas de performance no Meta Ads e Google Ads com foco em ROI, não em vaidade.",
+    "visual": "traffic"
+  },
+  {
+    "n": "03",
+    "title": "Sites & Landing Pages",
+    "desc": "Páginas rápidas, bonitas e pensadas para converter visitante em cliente.",
+    "visual": "site"
+  },
+  {
+    "n": "04",
+    "title": "Branding",
+    "desc": "Identidade visual e posicionamento que fazem sua marca ser lembrada e escolhida.",
+    "visual": "brand"
+  },
+  {
+    "n": "05",
+    "title": "Automação",
+    "desc": "Processos e fluxos automatizados que economizam tempo e organizam a operação do seu negócio.",
+    "visual": "automation"
+  }
+]
